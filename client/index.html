@@ -1,38 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Secure Social Media</title>
-</head>
-<body>
-
-  <!-- Auth section: shown when logged out -->
-  <div id="auth-section">
-    <h2>Register</h2>
-    <input id="reg-username" type="text" placeholder="Username" />
-    <input id="reg-password" type="password" placeholder="Password" />
-    <button onclick="register()">Register</button>
-
-    <h2>Login</h2>
-    <input id="login-username" type="text" placeholder="Username" />
-    <input id="login-password" type="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-  </div>
-
-  <!-- Wall section: shown when logged in -->
-  <div id="wall-section" style="display:none">
-    <h2>The Wall</h2>
-
-    <div id="post-area">
-      <textarea id="message-input" placeholder="Write a message..."></textarea>
-      <button onclick="postMessage()">Post</button>
-    </div>
-
-    <div id="feed"></div>
-  </div>
-
-  <script src="crypto.js"></script>
-  <script src="app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlogBar</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

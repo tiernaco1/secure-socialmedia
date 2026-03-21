@@ -1,0 +1,33 @@
+.latest-posts {
+  padding: 64px 24px;
+  background: #f9fafb;
+}
+
+.latest-posts-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.latest-posts-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.latest-posts-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.latest-posts-viewall {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.latest-posts-viewall:hover {
+  opacity: 0.75;
+}

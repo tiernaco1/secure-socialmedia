@@ -1,0 +1,110 @@
+.post-card {
+  flex: 0 0 calc(33.333% - 14px);
+  background: #fff;
+  border: 1px solid var(--color-card-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  min-width: 260px;
+}
+
+.post-card-image-wrapper {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.post-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.post-card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--color-badge-bg);
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.03em;
+}
+
+.post-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 10px;
+}
+
+.post-card-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.post-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.post-card-friend-btn {
+  flex-shrink: 0;
+  background: var(--color-dark);
+  color: #fff;
+  border: none;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.post-card-friend-btn:hover {
+  background: var(--color-dark-lighter);
+}
+
+.post-card-desc {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.post-card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-card-border);
+}
+
+.post-card-author,
+.post-card-date {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
