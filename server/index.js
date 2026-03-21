@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
 
+const { initCA } = require('../ca/ca');
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const certRoutes = require('./routes/certificates');
@@ -29,6 +30,7 @@ mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('MongoDB connected');
+    initCA();
     app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
   })
   .catch((err) => {
