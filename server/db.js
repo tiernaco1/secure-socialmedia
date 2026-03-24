@@ -16,6 +16,8 @@ const userSchema = new mongoose.Schema({
 const postSchema = new mongoose.Schema({
   authorId:      { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   ciphertext:    { type: String, required: true },  // AES-256-GCM encrypted message (Base64)
+  iv:            { type: String, required: true },  // Base64 AES-GCM nonce (12 bytes)
+  tag:           { type: String, required: true },  // Base64 AES-GCM auth tag (16 bytes)
   encryptedKeys: { type: Array,  required: true },  // [{ userId, encryptedSessionKey }]
   createdAt:     { type: Date,   default: Date.now }
 });
