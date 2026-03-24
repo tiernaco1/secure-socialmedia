@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
@@ -8,6 +8,13 @@ import './LoginPage.css'
 function LoginPage() {
   const navigate = useNavigate()
   const [tab, setTab] = useState('register')  // 'register' | 'login'
+
+  // If already logged in, redirect home immediately
+  useEffect(() => {
+    if (localStorage.getItem('blogbar_userId')) {
+      navigate('/')
+    }
+  }, [navigate])
 
   // Shared form state
   const [username, setUsername] = useState('')
