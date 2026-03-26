@@ -31,3 +31,32 @@
 .latest-posts-viewall:hover {
   opacity: 0.75;
 }
+
+.latest-posts-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.latest-posts-newbtn {
+  background: var(--color-dark);
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.latest-posts-newbtn:hover {
+  background: var(--color-dark-lighter);
+}
+
+.latest-posts-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 48px 0;
+  font-size: 1rem;
+}
