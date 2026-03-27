@@ -1,0 +1,158 @@
+.profile-main {
+  min-height: 60vh;
+  padding: 60px 24px;
+  background: #f9fafb;
+}
+
+.profile-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  margin-bottom: 32px;
+}
+
+.profile-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 8px;
+}
+
+.profile-sub {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.profile-badge--member {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.profile-badge--none {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.profile-error {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.profile-success {
+  background: #ecfdf5;
+  color: #065f46;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.profile-warning {
+  background: #fffbeb;
+  color: #92400e;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 16px;
+  font-size: 0.9rem;
+}
+
+.profile-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.profile-table th,
+.profile-table td {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.profile-table th {
+  background: #f9fafb;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-card-border);
+}
+
+.profile-table td {
+  border-bottom: 1px solid #f3f4f6;
+  color: var(--color-text-secondary);
+}
+
+.profile-table tr:last-child td {
+  border-bottom: none;
+}
+
+.profile-add-btn {
+  background: var(--color-dark);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile-add-btn:hover:not(:disabled) {
+  background: var(--color-dark-lighter);
+}
+
+.profile-add-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.profile-remove-btn {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile-remove-btn:hover:not(:disabled) {
+  background: #b91c1c;
+}
+
+.profile-remove-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.profile-action-none {
+  color: #d1d5db;
+}
+
+.profile-empty {
+  text-align: center;
+  color: var(--color-text-muted);
+  padding: 48px 0;
+}

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, GroupMember, RevokedCert } = require('../db');
+const { User, GroupMember, RevokedCert, Post } = require('../db');
 
 // GET /api/group/members
 // Returns all current group members with their certificates + the current CRL.
@@ -28,19 +28,65 @@ router.get('/members', async (req, res) => {
 });
 
 // POST /api/group/add
-// Receives: { userId }
-// Adds a registered user to the secure group so future posts include a key for them.
+// Receives: { userId, keyUpdates: [{ postId, encryptedSessionKey }] }
+// Adds the user to the group and appends their re-wrapped AES key to every existing post.
 router.post('/add', async (req, res) => {
-  // TODO: implement in Phase 5 (group management)
-  res.status(501).json({ message: 'Not implemented yet' });
+  try {
+    const { userId, keyUpdates } = req.body;
+    if (!userId) return res.status(400).json({ message: 'userId required' });
+
+    // Add to group — upsert so calling twice is safe
+    await GroupMember.updateOne({ userId }, { userId }, { upsert: true });
+
+    // Push the new member's encrypted session key into each existing post
+    for (const { postId, encryptedSessionKey } of (keyUpdates || [])) {
+      await Post.updateOne(
+        { _id: postId },
+        { $push: { encryptedKeys: { userId, encryptedSessionKey } } }
+      );
+    }
+
+    res.json({ message: 'User added to group' });
+  } catch (err) {
+    console.error('POST /group/add error:', err.message);
+    res.status(500).json({ message: 'Failed to add user to group' });
+  }
 });
 
 // POST /api/group/remove
 // Receives: { userId }
-// Removes a user from the group and revokes their certificate.
+// Revokes their certificate, removes them from the group, and strips their
+// key blob from every existing post so they can no longer decrypt anything.
 router.post('/remove', async (req, res) => {
-  // TODO: implement in Phase 5 (group management)
-  res.status(501).json({ message: 'Not implemented yet' });
+  try {
+    const { userId } = req.body;
+    if (!userId) return res.status(400).json({ message: 'userId required' });
+
+    // Look up the user to get their cert serial for the CRL
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // Add their cert serial to the revocation list (upsert — safe to call twice)
+    await RevokedCert.updateOne(
+      { serial: user.certSerial },
+      { serial: user.certSerial },
+      { upsert: true }
+    );
+
+    // Remove from group
+    await GroupMember.deleteOne({ userId });
+
+    // Strip their key blob from every post
+    await Post.updateMany(
+      {},
+      { $pull: { encryptedKeys: { userId: user._id } } }
+    );
+
+    res.json({ message: 'User removed from group' });
+  } catch (err) {
+    console.error('POST /group/remove error:', err.message);
+    res.status(500).json({ message: 'Failed to remove user from group' });
+  }
 });
 
 module.exports = router;

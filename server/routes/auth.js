@@ -76,4 +76,21 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET /api/auth/users
+// Returns all registered users (userId, username, certificate).
+// Used by the group management UI to know who can be added to the group.
+router.get('/users', async (req, res) => {
+  try {
+    const users = await User.find({}, '_id username certificate');
+    res.json(users.map(u => ({
+      userId:      u._id,
+      username:    u.username,
+      certificate: u.certificate
+    })));
+  } catch (err) {
+    console.error('GET /auth/users error:', err.message);
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
+});
+
 module.exports = router;
