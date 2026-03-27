@@ -147,6 +147,10 @@
   cursor: not-allowed;
 }
 
+.profile-badge--cert-valid   { background: #d1fae5; color: #065f46; }
+.profile-badge--cert-revoked { background: #fee2e2; color: #991b1b; }
+.profile-badge--cert-expired { background: #ffedd5; color: #9a3412; }
+
 .profile-action-none {
   color: #d1d5db;
 }

@@ -63,22 +63,6 @@
   flex: 1;
 }
 
-.post-card-friend-btn {
-  flex-shrink: 0;
-  background: var(--color-dark);
-  color: #fff;
-  border: none;
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s;
-}
-
-.post-card-friend-btn:hover {
-  background: var(--color-dark-lighter);
-}
 
 .post-card-desc {
   font-size: 0.875rem;

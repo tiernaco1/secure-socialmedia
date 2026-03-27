@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react'
 import forge from 'node-forge'
 import Navbar from '../components/Navbar.jsx'
 import Footer from '../components/Footer.jsx'
-import { getPrivateKey } from '../utils/crypto.js'
+import { getPrivateKey, validateCertificate } from '../utils/crypto.js'
 import './ProfilePage.css'
 
 function ProfilePage() {
   const [allUsers, setAllUsers]   = useState([])
   const [memberIds, setMemberIds] = useState(new Set())
-  const [adding, setAdding]       = useState(null)  // userId currently being added
-  const [removing, setRemoving]   = useState(null)  // userId currently being removed
-  const [error, setError]         = useState('')
-  const [success, setSuccess]     = useState('')
+  const [adding, setAdding]         = useState(null)  // userId currently being added
+  const [removing, setRemoving]     = useState(null)  // userId currently being removed
+  const [revokedSerials, setRevokedSerials] = useState([])
+  const [error, setError]           = useState('')
+  const [success, setSuccess]       = useState('')
 
   const myUserId  = localStorage.getItem('blogbar_userId')
   const myUsername = localStorage.getItem('blogbar_username')
@@ -28,6 +29,7 @@ function ProfilePage() {
 
       setAllUsers(users)
       setMemberIds(new Set(groupData.members.map(m => String(m.userId))))
+      setRevokedSerials(groupData.revokedSerials || [])
     } catch {
       setError('Failed to load user data')
     }
@@ -72,6 +74,14 @@ function ProfilePage() {
       const privateKeyPem = getPrivateKey(myUsername)
       if (!privateKeyPem) {
         setError('Private key not found in this browser. Did you register here?')
+        return
+      }
+
+      // Validate the new member's certificate before doing any crypto
+      const caCertPem = localStorage.getItem('blogbar_caCertificate')
+      const certCheck = validateCertificate(newMember.certificate, caCertPem, revokedSerials)
+      if (!certCheck.valid) {
+        setError(`Cannot add ${newMember.username}: certificate is ${certCheck.reason.toLowerCase()}.`)
         return
       }
 
@@ -158,6 +168,7 @@ function ProfilePage() {
               <tr>
                 <th>Username</th>
                 <th>Status</th>
+                <th>Certificate</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -168,6 +179,19 @@ function ProfilePage() {
                 const isAdding   = adding === user.userId
                 const isRemoving = removing === user.userId
 
+                const caCertPem  = localStorage.getItem('blogbar_caCertificate')
+                const certResult = (user.certificate && caCertPem)
+                  ? validateCertificate(user.certificate, caCertPem, revokedSerials)
+                  : { valid: false, reason: 'No certificate' }
+                let certClass = 'profile-badge--cert-valid'
+                let certLabel = 'Valid'
+                if (!certResult.valid) {
+                  const r = (certResult.reason || '').toLowerCase()
+                  if (r.includes('revoked'))      { certClass = 'profile-badge--cert-revoked'; certLabel = 'Revoked' }
+                  else if (r.includes('expired')) { certClass = 'profile-badge--cert-expired'; certLabel = 'Expired' }
+                  else                            { certClass = 'profile-badge--cert-revoked'; certLabel = 'Invalid' }
+                }
+
                 return (
                   <tr key={user.userId}>
                     <td>{user.username}{isMe ? ' (you)' : ''}</td>
@@ -176,6 +200,9 @@ function ProfilePage() {
                         ? <span className="profile-badge profile-badge--member">Member</span>
                         : <span className="profile-badge profile-badge--none">Not a member</span>
                       }
+                    </td>
+                    <td>
+                      <span className={`profile-badge ${certClass}`}>{certLabel}</span>
                     </td>
                     <td>
                       {isMe ? (

@@ -25,7 +25,6 @@ function PostCarousel({ posts }) {
           <PostCard
             key={post.id}
             {...post}
-            onRequestFriend={() => alert(`Friend request sent to ${post.author}!`)}
           />
         ))}
       </div>

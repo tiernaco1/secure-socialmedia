@@ -13,7 +13,7 @@ const CalendarIcon = () => (
   </svg>
 )
 
-function PostCard({ title, description, imageUrl, category, author, date, isFriend, onRequestFriend }) {
+function PostCard({ title, description, imageUrl, category, author, date, isFriend }) {
   return (
     <div className="post-card">
       {/* Image with category badge overlay */}
@@ -23,21 +23,14 @@ function PostCard({ title, description, imageUrl, category, author, date, isFrie
       </div>
 
       <div className="post-card-body">
-        {/* Title row — shows "Ciphertext" + Request Friend button when not a friend */}
         <div className="post-card-title-row">
           <h3 className="post-card-title">
-            {isFriend ? title : 'Ciphertext'}
+            {isFriend ? title : 'Encrypted Post'}
           </h3>
-          {!isFriend && (
-            <button className="post-card-friend-btn" onClick={onRequestFriend}>
-              Request Friend
-            </button>
-          )}
         </div>
 
-        {/* Description — replaced with hint text for non-friends */}
         <p className="post-card-desc">
-          {isFriend ? description : `Be friend with ${author} to view their blog`}
+          {isFriend ? description : 'This post is encrypted. Only group members can read it.'}
         </p>
 
         {/* Author + date meta row */}
