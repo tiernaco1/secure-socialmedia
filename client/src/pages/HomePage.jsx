@@ -40,7 +40,7 @@ function HomePage() {
           date:        new Date(post.createdAt).toLocaleDateString('en-US', {
                          month: 'short', day: 'numeric', year: 'numeric'
                        }),
-          isFriend:    parsed !== null
+          isMember:    parsed !== null
         }
       })
 

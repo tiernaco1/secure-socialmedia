@@ -13,24 +13,24 @@ const CalendarIcon = () => (
   </svg>
 )
 
-function PostCard({ title, description, imageUrl, category, author, date, isFriend }) {
+function PostCard({ title, description, imageUrl, category, author, date, isMember }) {
   return (
     <div className="post-card">
       {/* Image with category badge overlay */}
       <div className="post-card-image-wrapper">
-        <img src={imageUrl} alt={isFriend ? title : 'Encrypted post'} className="post-card-image" />
+        <img src={imageUrl} alt={isMember ? title : 'Encrypted post'} className="post-card-image" />
         <span className="post-card-badge">{category}</span>
       </div>
 
       <div className="post-card-body">
         <div className="post-card-title-row">
           <h3 className="post-card-title">
-            {isFriend ? title : 'Encrypted Post'}
+            {isMember ? title : 'Encrypted Post'}
           </h3>
         </div>
 
         <p className="post-card-desc">
-          {isFriend ? description : 'This post is encrypted. Only group members can read it.'}
+          {isMember ? description : 'This post is encrypted. Only group members can read it.'}
         </p>
 
         {/* Author + date meta row */}
