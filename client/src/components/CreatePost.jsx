@@ -30,7 +30,6 @@ function CreatePost({ onClose, onPostCreated }) {
       const groupRes  = await fetch('/api/group/members')
       const groupData = await groupRes.json()
 
-      // Encrypt the post content as JSON
       const plaintext = JSON.stringify({ title, description, category })
       const encrypted = encryptMessage(
         plaintext,
@@ -39,7 +38,6 @@ function CreatePost({ onClose, onPostCreated }) {
         groupData.revokedSerials
       )
 
-      // Send encrypted post to server
       const postRes = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -58,7 +56,6 @@ function CreatePost({ onClose, onPostCreated }) {
         return
       }
 
-      // Refresh the feed and close the modal
       onPostCreated()
       onClose()
     } catch (err) {

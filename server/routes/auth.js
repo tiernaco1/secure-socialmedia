@@ -11,16 +11,13 @@ router.post('/register', async (req, res) => {
   try {
     const { username, password, publicKeyPem } = req.body;
 
-    // Validate all required fields are present
     if (!username || !password || !publicKeyPem)
       return res.status(400).json({ message: 'Missing fields' });
 
-    // Reject if username is already taken
     const existing = await User.findOne({ username });
     if (existing)
       return res.status(409).json({ message: 'Username already taken' });
 
-    // Hash the password before storing
     const passwordHash = await bcrypt.hash(password, 10);
 
     // CA signs the user's public key → issues a signed X.509 certificate
@@ -53,12 +50,10 @@ router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Look up the user
     const user = await User.findOne({ username });
     if (!user)
       return res.status(401).json({ message: 'Invalid credentials' });
 
-    // Verify password against stored hash
     const match = await bcrypt.compare(password, user.passwordHash);
     if (!match)
       return res.status(401).json({ message: 'Invalid credentials' });

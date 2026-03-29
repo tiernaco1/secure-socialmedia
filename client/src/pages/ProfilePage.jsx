@@ -126,7 +126,7 @@ function ProfilePage() {
       }
 
       setSuccess(`${newMember.username} has been added to the group and can now decrypt all existing posts.`)
-      await loadData()  // refresh member list
+      await loadData()
     } catch (err) {
       console.error('Add member error:', err)
       setError('Something went wrong during key re-wrapping.')

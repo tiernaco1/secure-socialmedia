@@ -9,14 +9,12 @@ function LoginPage() {
   const navigate = useNavigate()
   const [tab, setTab] = useState('register')  // 'register' | 'login'
 
-  // If already logged in, redirect home immediately
   useEffect(() => {
     if (localStorage.getItem('blogbar_userId')) {
       navigate('/')
     }
   }, [navigate])
 
-  // Shared form state
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError]       = useState('')
@@ -98,7 +96,6 @@ function LoginPage() {
       <Navbar />
       <main className="auth-main">
         <div className="auth-card">
-          {/* Tab switcher */}
           <div className="auth-tabs">
             <button
               className={`auth-tab ${tab === 'register' ? 'auth-tab--active' : ''}`}

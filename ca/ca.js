@@ -2,7 +2,6 @@ const forge = require('node-forge');
 const fs = require('fs');
 const path = require('path');
 
-// The CA's root key pair and certificate — generated once on first startup
 let caKeys = null;
 let caCert = null;
 
@@ -18,7 +17,6 @@ function initCA() {
     };
     caCert = forge.pki.certificateFromPem(saved.certPem);
   } else {
-    // First run — generate RSA-2048 root key pair
     caKeys = forge.pki.rsa.generateKeyPair(2048);
 
     // Create a self-signed X.509 root certificate valid for 10 years
@@ -70,18 +68,15 @@ function signCertificate(username, publicKeyPem) {
 function validateCertificate(certPem, revokedSerials = []) {
   const cert = forge.pki.certificateFromPem(certPem);
 
-  // Check certificate has not expired
   const now = new Date();
   if (now < cert.validity.notBefore || now > cert.validity.notAfter) {
     return { valid: false, reason: 'Certificate expired' };
   }
 
-  // Check serial is not on the revocation list
   if (revokedSerials.includes(cert.serialNumber)) {
     return { valid: false, reason: 'Certificate revoked' };
   }
 
-  // Verify the CA's signature on this certificate
   try {
     const verified = caCert.verify(cert);
     if (!verified) return { valid: false, reason: 'Invalid signature' };
