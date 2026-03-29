@@ -76,10 +76,12 @@ router.post('/remove', async (req, res) => {
     // Remove from group
     await GroupMember.deleteOne({ userId });
 
-    // Strip their key blob from every post
+    // Strip their key blob from every post.
+    // userId is stored as a string in the encryptedKeys array (serialised from JSON),
+    // so match against String(_id) to avoid an ObjectId vs string type mismatch.
     await Post.updateMany(
       {},
-      { $pull: { encryptedKeys: { userId: user._id } } }
+      { $pull: { encryptedKeys: { userId: String(user._id) } } }
     );
 
     res.json({ message: 'User removed from group' });
