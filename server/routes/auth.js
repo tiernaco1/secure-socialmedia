@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const { User } = require('../db');
+const { User, GroupMember } = require('../db');
 const { signCertificate, getCACertPem } = require('../../ca/ca');
 
 // POST /api/auth/register
@@ -30,6 +30,12 @@ router.post('/register', async (req, res) => {
       certificate: certPem,
       certSerial: serial
     });
+
+    // If no group members exist yet, this is the first user — add them automatically
+    const memberCount = await GroupMember.countDocuments();
+    if (memberCount === 0) {
+      await GroupMember.create({ userId: user._id });
+    }
 
     // Return the user's cert + the CA cert (client needs CA cert to verify other users)
     res.status(201).json({
